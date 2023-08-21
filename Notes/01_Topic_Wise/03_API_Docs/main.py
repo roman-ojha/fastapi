@@ -1,5 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
+from enum import Enum
 
 app = FastAPI()
 
@@ -15,11 +16,20 @@ async def index():
     return {"msg": "Hello World"}
 
 
-@app.get('/item/{item_id}')
-async def index(item_id):
-    return {"item_id": item_id}
-
-
 @app.get("/items/{item_id}")
 async def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+
+class UserName(str, Enum):
+    roman = "roman"
+    razz = "razz"
+
+
+# Path parameter Docs: Because the available values for the path parameter are predefined 'UserName' enum, the interactive docs can show them nicely:
+@app.get('/user/{username}')
+async def get_user(username: UserName):
+    if username is UserName.roman:
+        return {'username': username, 'msg': "Hello Roman"}
+    if username.value == 'razz':
+        return {'username': username, 'msg': "Hello Razz"}
