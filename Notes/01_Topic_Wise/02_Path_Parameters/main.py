@@ -24,6 +24,8 @@ async def read_item(item_id: int, q: Union[str, None] = None):
     # Notice that the value your function received (and returned) is 5, as a Python int, not a string "5".
     # So, with that type declaration, FastAPI gives you automatic request "parsing".
     # Pydantic: https://fastapi.tiangolo.com/tutorial/path-params/#pydantic
+    # All the data validation is performed under the hood by Pydantic, so you get all the benefits from it. And you know you are in good hands.
+    # You can use the same type declarations with str, float, bool and many other complex data types
     return {"item_id": item_id, "q": q}
 
 
