@@ -129,6 +129,22 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 # About def vs async def: https://fastapi.tiangolo.com/tutorial/sql-databases/#about-def-vs-async-def
 
+
+"""
+*) Migration:
+Because we are using SQLAlchemy directly and we don't require any kind of plug-in for it to work with FastAPI, we could integrate database migrations with Alembic(https://alembic.sqlalchemy.org/) directly.
+
+And as the code related to SQLAlchemy and the SQLAlchemy models lives in separate independent files, you would even be able to perform the migrations with Alembic without having to install FastAPI, Pydantic, or anything else.
+
+The same way, you would be able to use the same SQLAlchemy models and utilities in other parts of your code that are not related to FastAPI.
+
+For example, in a background task worker with Celery(https://docs.celeryq.dev/), RQ(https://python-rq.org/), or ARQ(https://arq-docs.helpmanual.io/).
+"""
+
+
+# Todo: Alternative DB Session with middleware (https://arq-docs.helpmanual.io/)
+
+
 def main():
     uvicorn.run("main:app", port=PORT, reload=True)
 
