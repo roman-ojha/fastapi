@@ -5,7 +5,8 @@
 from sqlalchemy.orm import Session
 
 # Import 'models' (the SQLAlchemy models) and 'schemas' (the Pydantic models / schemas).
-from . import models, schemas
+import models
+import schemas
 
 
 # Function to read single user by Id
@@ -49,6 +50,9 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
 # Function to create new item
 def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db_item = models.Item(**item.model_dump(), owner_id=user_id)
+    # Instead of passing each of the keyword arguments to Item and reading each one of them from the Pydantic model, we are generating a dict with the Pydantic model's data with 'item.model_dump()'
+    # and then we are passing the dict's key-value pairs as the keyword arguments to the SQLAlchemy Item, with 'Item(**item.model_dump())'
+    # And then we pass the extra keyword argument 'owner_id' that is not provided by the Pydantic model
     db.add(db_item)
     db.commit()
     db.refresh(db_item)

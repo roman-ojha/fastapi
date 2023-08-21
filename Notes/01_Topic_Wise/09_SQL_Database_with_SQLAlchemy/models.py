@@ -5,7 +5,7 @@
 
 # Import Base from database (the file database.py from above).
 
-from .database import Base
+from database import Base
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
